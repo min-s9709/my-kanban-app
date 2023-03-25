@@ -1,4 +1,17 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
+
+export const saveBoardItem = (boardItem: IToDoState) => {
+  localStorage.setItem("toDoBoard", JSON.stringify(boardItem));
+};
+
+export const loadBoardItem = () => {
+  const boardTask = localStorage.getItem("toDoBoard");
+  if (boardTask) {
+    return JSON.parse(boardTask);
+  } else {
+    return [];
+  }
+};
 
 export interface ITodo {
   id: number;
@@ -10,10 +23,12 @@ interface IToDoState {
 }
 
 export const toDoState = atom<IToDoState>({
-  key: "toDo",
+  key: "toDos",
   default: {
-    "To Do": [],
-    Doing: [],
-    Done: [],
+    "To Do":
+      loadBoardItem()["To Do"] !== undefined ? loadBoardItem()["To Do"] : [],
+    Doing:
+      loadBoardItem()["Doing"] !== undefined ? loadBoardItem()["Doing"] : [],
+    Done: loadBoardItem()["Done"] !== undefined ? loadBoardItem()["Done"] : [],
   },
 });

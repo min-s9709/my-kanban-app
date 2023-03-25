@@ -26,6 +26,9 @@ const Form = styled.form`
   width: 100%;
   input {
     width: 100%;
+    font-size: 15px;
+    border: 0;
+    text-align: center;
   }
 `;
 

@@ -1,8 +1,9 @@
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { toDoState } from "./atoms";
+import { saveBoardItem, toDoState } from "./atoms";
 import { useRecoilState } from "recoil";
 import Board from "./components/Board";
+import { useEffect } from "react";
 const Wrapper = styled.div`
   display: flex;
   width: 100vw;
@@ -22,7 +23,7 @@ const Boards = styled.div`
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = (info: DropResult) => {
-    const { destination, draggableId, source } = info;
+    const { destination, source } = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       // same baord movement
@@ -53,6 +54,9 @@ function App() {
       });
     }
   };
+  useEffect(() => {
+    saveBoardItem(toDos);
+  }, [toDos]);
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
